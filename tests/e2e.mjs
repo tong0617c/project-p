@@ -1,0 +1,34 @@
+import {chromium,browserOptions} from './browser.mjs';
+import assert from 'node:assert/strict';
+const browser=await chromium.launch(browserOptions);
+const context=await browser.newContext({viewport:{width:390,height:844},isMobile:true,hasTouch:true});
+const page=await context.newPage();const errors=[];page.on('pageerror',e=>errors.push(e.message));
+const click=async(name)=>page.getByRole('button',{name,exact:true}).click();
+try {
+ await page.goto('http://127.0.0.1:5173');
+ await page.getByRole('button',{name:/PLACE TO RETURN/}).click();
+ await click('小屋菜单'); await click('邮箱'); await page.getByRole('button',{name:/TO YOU, WITH WARMTH/}).click();
+ await page.getByRole('heading',{name:'亲爱的你：'}).waitFor();
+ await click('手账'); await page.getByRole('button',{name:/小屋信箱/}).click();
+ assert.ok(await page.getByText('已读收藏 · 1 封').isVisible());
+ await page.getByRole('button',{name:/TO YOU, WITH WARMTH/}).click();await click('去制作纪念卡 →');
+ await page.getByLabel('02 / 回忆的名字').fill('测试：窗边的午后');
+ await page.getByLabel('03 / 想留下的话').fill('一起读完一本书。');
+ await click('✧ 完成并收藏纪念卡');await click('去展示柜摆放 →');await click('摆放《测试：窗边的午后》');await click('查看潘妮的后续消息 →');
+ assert.ok(await page.getByText(/我看到展示柜里的《测试：窗边的午后》了/).isVisible());
+ await page.reload();await click('纪念册');await page.getByRole('heading',{name:'测试：窗边的午后'}).waitFor();
+ await click('到展示柜看看 →');await click('移回纪念册');await click('摆放《测试：窗边的午后》');
+ const saved=await page.evaluate(()=>JSON.parse(localStorage.getItem('project-p.save.v2')));
+ assert.equal(saved.cards.length,1);assert.equal(saved.events.filter(x=>x==='event.first-card.displayed').length,1);
+ await click('设置');const downloadPromise=page.waitForEvent('download');await click('↓ 导出当前存档');const download=await downloadPromise;assert.equal(download.suggestedFilename(),'project-p-save.json');
+ await page.getByLabel('选择存档以导入').setInputFiles({name:'bad.json',mimeType:'application/json',buffer:Buffer.from('{broken')});await page.getByRole('status').filter({hasText:'无法导入'}).waitFor();
+ await page.getByLabel('选择存档以导入').setInputFiles({name:'good.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(saved))});await click('确认替换');
+ await page.reload();await click('纪念册');await page.getByRole('heading',{name:'测试：窗边的午后'}).waitFor();
+ await click('首页');await page.screenshot({path:'tests/home-mobile.png',fullPage:true});
+ assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
+ await click('小屋');await page.screenshot({path:'tests/room-mobile.png',fullPage:true});
+ await page.locator('canvas').waitFor();await click('小屋菜单');await click('书架');await page.getByRole('status').filter({hasText:'读到一半的书'}).waitFor();
+ await page.setViewportSize({width:320,height:740});assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
+ await page.setViewportSize({width:1024,height:800});assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
+ assert.deepEqual(errors,[]);console.log('PASS: mobile full story, shared letter, refresh persistence, idempotence, export/import, invalid import, hotspots, responsive overflow, zero browser errors');
+}finally{await browser.close()}
