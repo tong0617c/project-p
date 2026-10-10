@@ -65,5 +65,6 @@ localStorage 仍可能被浏览器/系统主动清理，请保留导出备份。
 
 ## GitHub Pages
 
-部署配置、公开检查、授权步骤与 iPhone 安装说明见 [DEPLOYMENT.md](DEPLOYMENT.md)。已推送至 tong0617c/project-p；云端测试通过，首次正式发布进行中。浏览器测试使用项目内 Playwright；首次可运行 pnpm exec playwright install chromium，或设置 BROWSER_CHANNEL=msedge 使用本机 Edge。
+部署配置、公开检查、授权步骤与 iPhone 安装说明见 [DEPLOYMENT.md](DEPLOYMENT.md)。正式网站：[Project P Mobile](https://tong0617c.github.io/project-p/)。GitHub Pages 部署及公网离线、重启存档验收已通过；iPhone 真机待验证。浏览器测试使用项目内 Playwright；首次可运行 pnpm exec playwright install chromium，或设置 BROWSER_CHANNEL=msedge 使用本机 Edge。
+
 

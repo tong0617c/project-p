@@ -1,6 +1,6 @@
 # GitHub Pages 部署与公开检查
 
-状态：已获得公开发布授权，源码已推送到 tong0617c/project-p（master）。GitHub 云端构建、测试及产物上传通过；用户已启用 Pages 与发布变量，正在触发首次正式部署。正式结果以 Actions 的 deploy job 为准。
+状态：GitHub Pages 已正式发布。网站：https://tong0617c.github.io/project-p/ 。部署运行 38017949693 的 build 与 deploy 均成功，公网浏览器验收已通过。
 
 ## 公开检查结果
 
@@ -47,7 +47,7 @@ git push -u origin master
 6. 在 Actions 查看 `Validate and deploy GitHub Pages`。成功后使用 deployment 的 `page_url` 或 Settings → Pages 显示的地址作为准确网站 URL。未得到这个结果前不能宣称上线成功。
 7. 如 deploy 显示 skipped，检查批准变量；如果 Pages 未启用，检查 Source；如果 Actions 被组织策略限制，管理员需允许工作流使用的官方 Actions。失败时修复后重跑，不需要强制推送或删除存档。
 
-本项目预期网址为 https://tong0617c.github.io/project-p/ 。首次部署成功前，此地址不代表网站已经可用。
+正式网址：https://tong0617c.github.io/project-p/ 。已验证 HTTPS 返回 200、图标与 manifest、Service Worker 作用域、两段剧情、完整浏览器重启后存档保留及断网加载 React/Phaser。
 
 ## 本地验收
 
@@ -67,7 +67,7 @@ pnpm run test:pages
 
 本次实际通过：TypeScript、18项游戏单元测试、3项base配置测试、子路径生产构建、上述浏览器验收。构建仍有 Phaser 大块体积提示（约1.50MB，gzip约346KB），未超出PWA预缓存上限。
 
-尚未验证：真实 GitHub Actions 执行、GitHub Pages 公网资源和 HTTPS、iPhone Safari/主屏幕真机、真实触摸长按与后台恢复。仓库未创建、发布未授权，因此不能宣称这些步骤成功。
+尚未验证：iPhone Safari/主屏幕真机、真实触摸长按与后台恢复。云端 Actions 和正式网站验收已通过；公网浏览器测试使用隔离的 Edge 手机视口，不读取个人存档。
 
 ## 存档与 iPhone 安装
 
@@ -77,5 +77,6 @@ pnpm run test:pages
 
 参考：[GitHub Pages 工作流](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages)、[Vite GitHub Pages 部署](https://vite.dev/guide/static-deploy.html#github-pages)、[Apple iPhone 网页 App](https://support.apple.com/en-lamr/guide/iphone/iphea86e5236/ios)。
 
-补充验收：根路径 / 的生产构建及同一套完整浏览器/离线/重启测试也通过；pnpm install --frozen-lockfile 已实际成功。工作流已人工核对，尚未由 GitHub 执行。
+补充验收：根路径 / 的生产构建及同一套完整浏览器/离线/重启测试也通过；pnpm install --frozen-lockfile 已实际成功。工作流已在 GitHub 成功执行并完成发布。
+
 
