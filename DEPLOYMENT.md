@@ -1,10 +1,10 @@
 # GitHub Pages 部署与公开检查
 
-状态：本地配置及测试完成；尚未连接远端、提交、推送、创建仓库或发布。`/project-p-mobile/` 只是本地测试路径，不是已创建的仓库或网站。
+状态：已获得公开发布授权，源码已推送到 tong0617c/project-p（master）。GitHub 云端构建、测试及产物上传通过；用户已启用 Pages 与发布变量，正在触发首次正式部署。正式结果以 Actions 的 deploy job 为准。
 
 ## 公开检查结果
 
-- 本地 Git：master，无提交历史，无远端。未找到 GitHub CLI (`gh`)；尚未验证 GitHub 登录与权限。
+- Git：master 已连接 origin（https://github.com/tong0617c/project-p.git），首次推送已成功。使用 Git Credential Manager 登录及 GitHub 隐私邮箱提交。
 - 扫描源码、配置、测试与 public：未发现 API Key、私钥、访问令牌、真实个人存档或私人聊天记录。浏览器个人数据未读取、未导出。
 - README/测试中原有的本机用户路径已移除，测试改用项目内 Playwright。
 - 测试 JSON 为编写测试时使用的合成数据；不是个人存档。
@@ -47,7 +47,7 @@ git push -u origin master
 6. 在 Actions 查看 `Validate and deploy GitHub Pages`。成功后使用 deployment 的 `page_url` 或 Settings → Pages 显示的地址作为准确网站 URL。未得到这个结果前不能宣称上线成功。
 7. 如 deploy 显示 skipped，检查批准变量；如果 Pages 未启用，检查 Source；如果 Actions 被组织策略限制，管理员需允许工作流使用的官方 Actions。失败时修复后重跑，不需要强制推送或删除存档。
 
-普通项目的 URL 格式是 `https://USERNAME.github.io/REPOSITORY/`，这只是格式，当前没有可确认的正式网址。
+本项目预期网址为 https://tong0617c.github.io/project-p/ 。首次部署成功前，此地址不代表网站已经可用。
 
 ## 本地验收
 
@@ -78,3 +78,4 @@ pnpm run test:pages
 参考：[GitHub Pages 工作流](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages)、[Vite GitHub Pages 部署](https://vite.dev/guide/static-deploy.html#github-pages)、[Apple iPhone 网页 App](https://support.apple.com/en-lamr/guide/iphone/iphea86e5236/ios)。
 
 补充验收：根路径 / 的生产构建及同一套完整浏览器/离线/重启测试也通过；pnpm install --frozen-lockfile 已实际成功。工作流已人工核对，尚未由 GitHub 执行。
+
